@@ -2,8 +2,6 @@ FROM ghcr.io/gap-system/gap-docker-base:master
 
 MAINTAINER The GAP Group <support@gap-system.org>
 
-ENV GAP_BRANCH=master
-
 # download and build GAP
 RUN    mkdir /home/gap/inst/ \
     && cd /home/gap/inst/ \
