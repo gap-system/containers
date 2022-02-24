@@ -1,4 +1,4 @@
-FROM ghcr.io/gap-system/gap-docker-base
+FROM ghcr.io/gap-system/gap-docker-base:master
 
 MAINTAINER The GAP Group <support@gap-system.org>
 
