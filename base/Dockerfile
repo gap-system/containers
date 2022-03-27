@@ -37,7 +37,6 @@ RUN    dpkg --add-architecture i386 \
             libtool \
             libxml2-dev \
             libzmq3-dev \
-            macaulay2 \
             m4 \
             mercurial \
             pari-gp \
@@ -57,6 +56,13 @@ RUN    adduser --quiet --shell /bin/bash --gecos "GAP user,101,," --disabled-pas
     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
     && cd /home/gap \
     && touch .sudo_as_admin_successful
+
+# Macaulay2
+RUN    echo "deb http://www.math.uiuc.edu/Macaulay2/Repositories/Ubuntu $(lsb_release -sc) main" >/etc/apt/sources.list.d/macaulay2.list \
+    && wget http://www2.macaulay2.com/Macaulay2/PublicKeys/Macaulay2-key \
+    && apt-key add Macaulay2-key \
+    && apt-get update -qq \
+    && apt-get -qq install -y macaulay2
 
 ENV LD_LIBRARY_PATH /usr/local/lib:${LD_LIBRARY_PATH}
 
