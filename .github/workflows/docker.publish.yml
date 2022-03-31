@@ -27,8 +27,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: [master, 4.11-latest, 4.10-latest, 4.9-latest, 4.8-latest, 4.7-latest, v4.11.1, v4.11.0, v4.10.2, v4.10.1, v4.10.0]
-        debug: [0, 1]
+        version: [v4.11.1]
+        #debug: [0, 1]
 
     steps:
       - name: Checkout repository
@@ -46,11 +46,11 @@ jobs:
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ env.REGISTRY }}/wilfwilson/gap-docker-${{ matrix.branch }}
+      #- name: Extract Docker metadata
+      #  id: meta
+      #  uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+      #  with:
+      #    images: ${{ env.REGISTRY }}/wucas/gap-docker-${{ matrix.branch }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -59,19 +59,7 @@ jobs:
         with:
           context: ./gap/
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: gap-${{ matrix.version }}-minimal:latest
+          target: gap-minimal
           build-args: |
-            GAP_VERSION=${{ matrix.branch }}
-
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
-      - name: Build and push Docker image for full
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: ./gap/
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            GAP_VERSION=${{ matrix.branch }}
+            GAP_VERSION=${{ matrix.version }}
