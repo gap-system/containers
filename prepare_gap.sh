@@ -42,6 +42,7 @@ if [[ "$TYPE" != "minimal" ]] && [[ "$TYPE" != "full" ]] ; then
     exit
 fi
 
+# these arrays too have to be changed upon a new release which is not ideal either!
 declare -A KNOWN_BRANCHES=(
     [master]=1 [stable-4.7]=1 [stable-4.8]=1 [stable-4.9]=1 [stable-4.10]=1 [stable-4.11]=1
 )
@@ -126,7 +127,7 @@ case $TYPE in
             echo "latest_version"
             URL_STRING="stable-${GAP_VERSION/#v}"
             URL_STRING="${URL_STRING%.*}"
-            wget https://files.gap-system.org/gap4pkgs/packages-required-"${URL_STRING}".tar.gz
+            wget https://files.gap-system.org/gap4pkgs/packages-"${URL_STRING}".tar.gz
             tar xzf packages-required-"${URL_STRING}".tar.gz 
             rm packages-required-"${URL_STRING}".tar.gz
         else 
