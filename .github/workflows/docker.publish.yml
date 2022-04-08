@@ -59,7 +59,7 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: gap-${{ matrix.version }}-minimal:latest
+          tags: ghcr.io/${{ github.repository_owner }}/gap-${{ matrix.version }}-minimal:latest
           target: gap-minimal
           build-args: |
             GAP_VERSION=${{ matrix.version }}
