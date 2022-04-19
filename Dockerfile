@@ -25,17 +25,17 @@ RUN    apt-get update -qq \
             wget
 
 # add gap user
-RUN    adduser --quiet --shell /bin/bash --gecos "GAP user,101,," --disabled-password gap \
-    && adduser gap sudo \
-    && chown -R gap:gap /home/gap/ \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
-    && cd /home/gap \
-    && touch .sudo_as_admin_successful
+#RUN    adduser --quiet --shell /bin/bash --gecos "GAP user,101,," --disabled-password gap \
+#    && adduser gap sudo \
+#    && chown -R gap:gap /home/gap/ \
+#    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+#    && cd /home/gap \
+#    && touch .sudo_as_admin_successful
 
 ENV LD_LIBRARY_PATH /usr/local/lib:${LD_LIBRARY_PATH}
 
 # Set up new user and home directory in environment.
-USER gap
+#USER gap
 ENV HOME /home/gap
 
 # Note that WORKDIR will not expand environment variables in docker versions < 1.3.1.
@@ -55,7 +55,7 @@ LABEL maintainer="The GAP Group <support@gap-system.org>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-USER root
+#USER root
 ENV HOME /home/root
 
 # Prerequisites
@@ -77,7 +77,7 @@ RUN    apt-get -qq install -y \
         libxaw7-dev \
         libxt-dev
 
-USER gap
+#USER gap
 ENV HOME /home/gap
 
 
