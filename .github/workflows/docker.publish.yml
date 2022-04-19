@@ -63,4 +63,4 @@ jobs:
           tags: ghcr.io/${{ github.repository_owner }}/gap-${{matrix.gap-version}}-${{matrix.container-version}}:latest
           target: gap-minimal
           build-args: |
-            GAP_VERSION=${{ matrix.version }}
+            GAP_VERSION=${{ matrix.gap-version }}
