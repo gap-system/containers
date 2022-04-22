@@ -24,10 +24,10 @@ jobs:
     permissions:
       contents: read
       packages: write
-    strategy:
-      fail-fast: false
-      matrix:
-        container-version: [base, all-deps]
+    #strategy:
+      #fail-fast: false
+      #matrix:
+      #  container-version: [base, all-deps]
 
     steps:
       - name: Checkout repository
@@ -53,12 +53,18 @@ jobs:
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
+      - name: Build and push base image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ghcr.io/${{ github.repository_owner }}/${{matrix.container-version}}:latest
-          target: ${{matrix.container-version}}
-          #build-args: |
-          #  GAP_VERSION=${{ matrix.gap-version }}
+          tags: ghcr.io/${{ github.repository_owner }}/base:latest
+          target: all-deps
+
+      - name: Build and push all-deps image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ghcr.io/${{ github.repository_owner }}/all-deps:latest
+          target: all-deps

@@ -49,7 +49,7 @@ CMD ["bash"]
 
 ##########################################################################################
 # all-deps has all packages installed that are needed to compile all GAP packages
-FROM base AS all-deps
+FROM ghcr.io/wucas/base:latest AS all-deps
 
 LABEL maintainer="The GAP Group <support@gap-system.org>"
 
@@ -83,7 +83,7 @@ ENV HOME /home/gap
 
 ##########################################################################################
 
-FROM base AS gap-minimal
+FROM ghcr.io/wucas/base:latest AS gap-minimal
 
 LABEL maintainer="The GAP Group <support@gap-system.org>"
 
@@ -101,7 +101,7 @@ ENV PATH ${GAP_HOME}/bin:${PATH}
 
 ##########################################################################################
 
-FROM all-deps AS gap-full
+FROM ghcr.io/wucas/all-deps:latest AS gap-full
 
 LABEL maintainer="The GAP Group <support@gap-system.org>"
 
@@ -119,7 +119,7 @@ ENV PATH ${GAP_HOME}/bin:${PATH}
 
 ##########################################################################################
 
-FROM base AS gap-minimal-debug
+FROM ghcr.io/wucas/base:latest AS gap-minimal-debug
 
 LABEL maintainer="The GAP Group <support@gap-system.org>"
 
@@ -137,7 +137,7 @@ ENV PATH ${GAP_HOME}/bin:${PATH}
 
 ##########################################################################################
 
-FROM all-deps AS gap-full-debug
+FROM ghcr.io/wucas/all-deps:latest AS gap-full-debug
 
 LABEL maintainer="The GAP Group <support@gap-system.org>"
 
