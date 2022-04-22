@@ -128,8 +128,8 @@ case $TYPE in
             URL_STRING="stable-${GAP_VERSION/#v}"
             URL_STRING="${URL_STRING%.*}"
             wget https://files.gap-system.org/gap4pkgs/packages-"${URL_STRING}".tar.gz
-            tar xzf packages-required-"${URL_STRING}".tar.gz 
-            rm packages-required-"${URL_STRING}".tar.gz
+            tar xzf packages-"${URL_STRING}".tar.gz 
+            rm packages-"${URL_STRING}".tar.gz
         else 
             wget https://files.gap-system.org/gap4pkgs/packages-"${GAP_VERSION}".tar.gz
             tar xzf packages-"${GAP_VERSION}".tar.gz 
