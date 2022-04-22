@@ -28,7 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         gap-version: [4.11.1, master]
-        container-version: [minimal]
+        container-version: [minimal, full]
         #debug: [0, 1]
 
     steps:
