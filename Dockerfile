@@ -24,13 +24,13 @@ RUN    apt-get update -qq \
             unzip \
             wget
 
-# add gap user
-#RUN    adduser --quiet --shell /bin/bash --gecos "GAP user,101,," --disabled-password gap \
-#    && adduser gap sudo \
-#    && chown -R gap:gap /home/gap/ \
-#    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
-#    && cd /home/gap \
-#    && touch .sudo_as_admin_successful
+ #add gap user
+RUN    adduser --quiet --shell /bin/bash --gecos "GAP user,101,," --disabled-password gap \
+    && adduser gap sudo \
+    && chown -R gap:gap /home/gap/ \
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+    && cd /home/gap \
+    && touch .sudo_as_admin_successful
 
 ENV LD_LIBRARY_PATH /usr/local/lib:${LD_LIBRARY_PATH}
 
