@@ -64,7 +64,7 @@ runs:
         #  GAP_VERSION=${{ VERSION }}
 
     - name: Build and push all-deps image
-      if: ${{ BUILD_BASE_IMAGES = '1' && BUILD_BASE_IMAGES_ONLY = '0' }}
+      if: ${{ BUILD_BASE_IMAGES_ONLY = '1' }}
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
       with:
         context: .
@@ -75,7 +75,7 @@ runs:
         #  GAP_VERSION=${{ VERSION }}
 
     - name: Build and push Docker image
-      if: ${{ BUILD_BASE_IMAGES = '0' && BUILD_BASE_IMAGES_ONLY = '0' }}
+      if: ${{ BUILD_BASE_IMAGES_ONLY = '0' && DEBUG = '0' }}
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
       with:
         context: .
@@ -86,7 +86,7 @@ runs:
           GAP_VERSION=${{ VERSION }}
 
     - name: Build and push Docker image
-      if: DEBUG = '1'
+      if: ${{ BUILD_BASE_IMAGES_ONLY = '0' && DEBUG = '1' }}
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
       with:
         context: .
