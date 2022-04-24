@@ -1,0 +1,97 @@
+name: Publish GAP container
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+description: 'Build and publish GAP container'
+inputs:
+  VERSION:
+    description: 'the GAP version to build the container with'
+    required: false
+    default: 'master'
+  TYPE:
+    description: 'the type of the container: full, minimal or doc' 
+    required: false 
+    default: 'minimal'
+  DEBUG:
+    description: 'whether to compile GAP in debug mode: 0 or 1'
+    required: false
+    default: '0'
+  BUILD_BASE_IMAGES_ONLY:
+    description: 'set to 1 to build and publish the base images'
+    required: false
+    default: '0'
+
+runs:
+  using: "composite"
+    #permissions:
+    #  contents: read
+    #  packages: write
+  
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    # Login against a Docker registry except on PR
+    # https://github.com/docker/login-action
+    - name: Log into registry ghcr.io
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    # Extract metadata (tags, labels) for Docker
+    # https://github.com/docker/metadata-action
+    #- name: Extract Docker metadata
+    #  id: meta
+    #  uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+    #  with:
+    #    images: ghcr.io/wucas/gap-docker-${{ matrix.branch }}
+
+    # Build and push Docker image with Buildx (don't push on PR)
+    # https://github.com/docker/build-push-action
+    - name: Build and push base image
+      if: ${{ BUILD_BASE_IMAGES_ONLY = '1' }}
+      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      with:
+        context: .
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ghcr.io/${{ github.repository_owner }}/base:latest
+        target: base
+        #build-args: |
+        #  GAP_VERSION=${{ VERSION }}
+
+    - name: Build and push all-deps image
+      if: ${{ BUILD_BASE_IMAGES = '1' && BUILD_BASE_IMAGES_ONLY = '0' }}
+      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      with:
+        context: .
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ghcr.io/${{ github.repository_owner }}/all-deps:latest
+        target: all-deps
+        #build-args: |
+        #  GAP_VERSION=${{ VERSION }}
+
+    - name: Build and push Docker image
+      if: ${{ BUILD_BASE_IMAGES = '0' && BUILD_BASE_IMAGES_ONLY = '0' }}
+      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      with:
+        context: .
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ghcr.io/${{ github.repository_owner }}/gap-${{VERSION}}-${{TYPE}}:latest
+        target: ${{TYPE}}
+        build-args: |
+          GAP_VERSION=${{ VERSION }}
+
+    - name: Build and push Docker image
+      if: DEBUG = '1'
+      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      with:
+        context: .
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ghcr.io/${{ github.repository_owner }}/gap-${{VERSION}}-${{TYPE}}-debug:latest
+        target: ${{TYPE}}-debug
+        build-args: |
+          GAP_VERSION=${{ VERSION }}
