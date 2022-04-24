@@ -22,6 +22,9 @@ inputs:
     description: 'set to 1 to build and publish the base images'
     required: false
     default: '0'
+  TOKEN:
+    description: 'GITHUB_TOKEN to access registry'
+    required: true
 
 runs:
   using: "composite"
@@ -40,7 +43,7 @@ runs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ inputs.TOKEN }}
 
     # Extract metadata (tags, labels) for Docker
     # https://github.com/docker/metadata-action

@@ -42,6 +42,7 @@ jobs:
           TYPE: ${{ matrix.container-version }}
           DEBUG: ${{ matrix.debug }}
           BUILD_BASE_IMAGES_ONLY: '0'
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
