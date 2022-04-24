@@ -83,7 +83,7 @@ ENV HOME /home/gap
 
 ##########################################################################################
 
-FROM ghcr.io/wucas/base:latest AS gap-minimal
+FROM ghcr.io/wucas/base:latest AS minimal
 
 LABEL maintainer="The GAP Group <support@gap-system.org>"
 
@@ -101,7 +101,7 @@ ENV PATH ${GAP_HOME}/bin:${PATH}
 
 ##########################################################################################
 
-FROM ghcr.io/wucas/all-deps:latest AS gap-full
+FROM ghcr.io/wucas/all-deps:latest AS full
 
 LABEL maintainer="The GAP Group <support@gap-system.org>"
 
@@ -119,7 +119,7 @@ ENV PATH ${GAP_HOME}/bin:${PATH}
 
 ##########################################################################################
 
-FROM ghcr.io/wucas/base:latest AS gap-minimal-debug
+FROM ghcr.io/wucas/base:latest AS minimal-debug
 
 LABEL maintainer="The GAP Group <support@gap-system.org>"
 
@@ -137,7 +137,7 @@ ENV PATH ${GAP_HOME}/bin:${PATH}
 
 ##########################################################################################
 
-FROM ghcr.io/wucas/all-deps:latest AS gap-full-debug
+FROM ghcr.io/wucas/all-deps:latest AS full-debug
 
 LABEL maintainer="The GAP Group <support@gap-system.org>"
 
